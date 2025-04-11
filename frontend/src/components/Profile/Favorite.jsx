@@ -18,7 +18,7 @@ const Favorite = () => {
   }, [FavoriteBooks]);
 
   return (
-    <div className='grid grid-cols-4 gap-4'>
+    <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4' >
       {FavoriteBooks && FavoriteBooks.length === 0 && <div className='text-2xl font-semibold '>Вы ещё не добавили книгу в избранное</div>}
       {FavoriteBooks &&
        FavoriteBooks.map((items,i)=> (

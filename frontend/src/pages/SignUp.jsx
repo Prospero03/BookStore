@@ -51,7 +51,7 @@ const SignUp = () => {
             </label>
             <input  type="email"
                     className='w-full mt-2 bg-zinc-900 text-zinc-100 p-2 outline-none'
-                    placeholder='email'
+                    placeholder='Введите email'
                     name="email"
                     required 
                     value= {Values.email}
@@ -66,7 +66,7 @@ const SignUp = () => {
             </label>
             <input  type="text"
                     className='w-full mt-2 bg-zinc-900 text-zinc-100 p-2 outline-none'
-                    placeholder='username'
+                    placeholder='Введите Имя'
                     name="username"
                     required 
                     value= {Values.username}
@@ -82,7 +82,7 @@ const SignUp = () => {
             </label>
             <input  type="password"
                     className='w-full mt-2 bg-zinc-900 text-zinc-100 p-2 outline-none'
-                    placeholder='password'
+                    placeholder='Введите пароль'
                     name="password"
                     required 
                     value= {Values.password}
@@ -96,7 +96,7 @@ const SignUp = () => {
             <textarea
                     className='w-full mt-2 bg-zinc-900 text-zinc-100 p-2 outline-none'
                     rows="5"
-                    placeholder='adress'
+                    placeholder='Введите адрес'
                     name="address"
                     required 
                     value= {Values.address}

@@ -23,18 +23,33 @@ const Navbar = () => {
           title: "Профиль",
           link: "/profile",
         },
+        {
+          title: "Админ Профиль",
+          link: "/profile",
+        },
       ];
 
       //Redux
       const isLoggedIn = useSelector((state)=> state.auth.isLoggedIn);
 
+      const role = useSelector((state)=> state.auth.role);
       //Redux - Главная, Каталог
       if (isLoggedIn ===false)
       {
-        links.splice(2,2)
+        links.splice(2,3)
       }
       //Первый аргумент 2 — это индекс, с которого начинается удаление.
       //Второй аргумент 2 — количество удаляемых элементов.
+
+      if (isLoggedIn ==true && role === "user")
+      {
+        links.splice(4,1)
+      }
+
+      if (isLoggedIn ==true && role === "admin")
+      {
+        links.splice(3,1)
+      }
 
       const [MobileNav, setMobileNav] = useState("hidden");
 
@@ -60,7 +75,7 @@ const Navbar = () => {
 
 
               <div className='flex items-center justify-center'>
-                 {items.title === "Профиль" ? (
+                 {items.title === "Профиль"|| items.title ==="Админ Профиль" ? (
                  <Link 
                       to={items.link}
                       className='px-4 py-2 border border-blue-500 rounded hover:bg-white hover:text-zinc-800 transition-all duration-300 hover:border-white'
@@ -75,10 +90,10 @@ const Navbar = () => {
                 </Link>)
                 }
               </div>
-
-
               ))}
               </div>
+
+              
 
               {/*
               <Link to={items.link}

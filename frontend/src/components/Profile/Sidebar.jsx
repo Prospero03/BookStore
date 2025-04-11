@@ -1,10 +1,15 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { FaArrowRightFromBracket } from "react-icons/fa6";
+import {useDispatch, useSelector} from 'react-redux';
+import {authActions} from "../../store/auth"
 
 const Sidebar = ({data}) => {
+  const dispatch = useDispatch();
+  const history = useNavigate();
+  const role = useSelector((state) => state.auth.role);
   return (
-    <div className='bg-zinc-800 p-4 rounded flex flex-col items-center justify-between h-[90%]'>
+    <div className='bg-zinc-800 p-4 rounded flex flex-col items-center justify-between h-auto lg:h-[90%]'>
       <div className='flex items-center flex-col justify-center'>
         {" "}
         <img src={data.avatar} alt="avatar"
@@ -16,32 +21,64 @@ const Sidebar = ({data}) => {
         <div className='w-full mt-4 h-[1px] bg-zinc-500 hidden lg:block'></div>
       </div>
 
-
-      <div className='w-full flex-col items-center justify center hidden lg:flex'>
+      {role ==="user" &&(
+        <div className='w-full flex-col items-center justify center hidden lg:flex'>
         <Link
           to="/profile"
           className='text-zinc-100 font-semibold w-full py-2 text-center mt-4 hover:bg-zinc-900 rounded transition-all'
         >
-          Favorites
+          Избранное
         </Link>
 
         <Link
           to="/profile/orderHistory"
           className='text-zinc-100 font-semibold w-full py-2 text-center mt-4 hover:bg-zinc-900 rounded transition-all'
         >
-          Order History
+          Заказы
         </Link>
 
         <Link
           to="/profile/settings"
           className='text-zinc-100 font-semibold w-full py-2 text-center mt-4 hover:bg-zinc-900 rounded transition-all'
         >
-          Settings
+          Редактирование 
         </Link>  
       </div>
+      )}
+      
 
-      <button className='bg-zinc900 w/6 lg:w-full mt-4 py-2 lg:mt-0 text-white font-semibold flex items-center justify-center hover:bg-zinc-900 rounded transition-all'>
-        Log Out <FaArrowRightFromBracket className="ms-4"/>
+      {role ==="admin" &&(
+        <div className='w-full flex-col items-center justify center hidden lg:flex'>
+        <Link
+          to="/profile"
+          className='text-zinc-100 font-semibold w-full py-2 text-center mt-4 hover:bg-zinc-900 rounded transition-all'
+        >
+          История заказов
+        </Link>
+
+        <Link
+          to="/profile/add-book"
+          className='text-zinc-100 font-semibold w-full py-2 text-center mt-4 hover:bg-zinc-900 rounded transition-all'
+        >
+          Добавить книгу
+        </Link>
+
+        
+      </div>
+      )}
+
+
+
+      <button className='bg-zinc900 w/6 lg:w-full mt-4 py-2 lg:mt-0 text-white font-semibold flex items-center justify-center hover:bg-zinc-900 rounded transition-all'
+              onClick={()=>{
+                dispatch(authActions.logout());
+                dispatch(authActions.changeRole("user"));
+                localStorage.clear("id");
+                localStorage.clear("token");
+                localStorage.clear("role");
+                history("/");
+              }}>
+        Выйти <FaArrowRightFromBracket className="ms-4"/>
       </button>
 
     </div>

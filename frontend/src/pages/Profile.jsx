@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom'
 import Sidebar from "../components/Profile/Sidebar"
 import axios from 'axios';
 import Loader from '../components/Loader/Loader';
+import MobileNav from '../components/Profile/MobileNav';
 
 const Profile = () => {
   
@@ -37,8 +38,9 @@ const Profile = () => {
 
       {Profile && (
         <>
-        <div className='w-full lg:w-1/6 md:w-2/6  '>
+        <div className='w-full lg:w-1/6 md:w-2/6 h-auto lg:h-screen '>
           <Sidebar data ={Profile}/>
+          <MobileNav/>
         </div>
 
         <div className='w-full lg:w-5/6 md:w-4/6 '>
