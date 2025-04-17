@@ -1,133 +1,154 @@
 import React, { useState } from 'react';
-import {Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Helmet } from 'react-helmet';
 
 const SignUp = () => {
-  const [Values, setValues] = useState({
-    username:"",
+  const [values, setValues] = useState({
+    username: "",
     email: "",
     password: "",
     address: "",
   });
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
-  const change = (e)=>{
-    const {name, value} = e.target;
-    setValues({...Values,[name]:value});
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setValues({ ...values, [name]: value });
   };
 
-  const submit = async() => {
-    
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      if (Values.username === "" || 
-          Values.email === "" || 
-          Values.password === "" || 
-          Values.address === ""
-          ) {
-          alert("Все поля обязательны для заполнения")
-          }else {
-            const response = await axios.post("http://localhost:1000/api/v1/sign-up", 
-            Values
-            );
-            alert(response.data.message);
-            navigate("/LogIn");
-          } 
+      if (!values.username || !values.email || !values.password || !values.address) {
+        setError("Все поля обязательны для заполнения");
+        return;
+      }
+
+      const response = await axios.post(
+        "http://localhost:1000/api/v1/sign-up",
+        values
+      );
+      alert(response.data.message);
+      navigate("/login");
     } catch (error) {
-      console.log(error);
+      setError(error.response?.data?.message || "Ошибка регистрации");
     }
-  }
+  };
 
   return (
-    <div className='h-screen bg-zinc-900 px-12 py-8 flex items-center justify-center'>
-      <div className='bg-zinc-800 rounded-lg px-8 py-5 w-full md:w-3/6 lg:w-2/6 '>
+    <div className='h-screen bg-zinc-900 px-4 py-8 flex items-center justify-center'>
+      <Helmet>
+        <title>Регистрация | Книжный магазин</title>
+        <meta name="description" content="Создайте аккаунт, чтобы получить доступ к персонализированным рекомендациям и удобным покупкам." />
+      </Helmet>
 
-        <h1 className='text-zinc-200 text-xl'> Регистрация</h1>
-        <div className='mt-4'>
+      <form 
+        onSubmit={handleSubmit}
+        className='bg-zinc-800 rounded-lg px-6 py-8 w-full md:w-3/6 lg:w-2/6'
+        aria-labelledby="signup-form-title"
+      >
+        <h1 id="signup-form-title" className='text-2xl text-white font-semibold mb-6'>
+          Регистрация
+        </h1>
 
-        <div className='mt-4'>
-            <label htmlFor="" className='text-zinc-400'>
+        {error && (
+          <div className="mb-4 p-2 bg-red-100 text-red-700 rounded">
+            {error}
+          </div>
+        )}
+
+        <div className='space-y-4'>
+          <fieldset>
+            <label htmlFor="email" className='block text-zinc-400 mb-1'>
               Email
             </label>
-            <input  type="email"
-                    className='w-full mt-2 bg-zinc-900 text-zinc-100 p-2 outline-none'
-                    placeholder='Введите email'
-                    name="email"
-                    required 
-                    value= {Values.email}
-                    onChange={change}
-                    />
-          </div>
+            <input
+              type="email"
+              id="email"
+              className='w-full bg-zinc-900 text-white p-3 rounded outline-none'
+              placeholder='Введите email'
+              name="email"
+              required
+              value={values.email}
+              onChange={handleChange}
+              aria-required="true"
+            />
+          </fieldset>
 
-
-          <div className='mt-4'>
-            <label htmlFor="" className='text-zinc-400'>
+          <fieldset>
+            <label htmlFor="username" className='block text-zinc-400 mb-1'>
               Имя пользователя
             </label>
-            <input  type="text"
-                    className='w-full mt-2 bg-zinc-900 text-zinc-100 p-2 outline-none'
-                    placeholder='Введите Имя'
-                    name="username"
-                    required 
-                    value= {Values.username}
-                    onChange={change}
-                    />
-          </div>
+            <input
+              type="text"
+              id="username"
+              className='w-full bg-zinc-900 text-white p-3 rounded outline-none'
+              placeholder='Введите имя'
+              name="username"
+              required
+              value={values.username}
+              onChange={handleChange}
+              aria-required="true"
+            />
+          </fieldset>
 
-          
-
-          <div className='mt-4'>
-            <label htmlFor="" className='text-zinc-400'>
+          <fieldset>
+            <label htmlFor="password" className='block text-zinc-400 mb-1'>
               Пароль
             </label>
-            <input  type="password"
-                    className='w-full mt-2 bg-zinc-900 text-zinc-100 p-2 outline-none'
-                    placeholder='Введите пароль'
-                    name="password"
-                    required 
-                    value= {Values.password}
-                    onChange={change}
-                    />
-          </div>
-          <div className='mt-4'>
-            <label htmlFor="" className='text-zinc-400'>
+            <input
+              type="password"
+              id="password"
+              className='w-full bg-zinc-900 text-white p-3 rounded outline-none'
+              placeholder='Введите пароль'
+              name="password"
+              required
+              value={values.password}
+              onChange={handleChange}
+              aria-required="true"
+            />
+          </fieldset>
+
+          <fieldset>
+            <label htmlFor="address" className='block text-zinc-400 mb-1'>
               Адрес
             </label>
             <textarea
-                    className='w-full mt-2 bg-zinc-900 text-zinc-100 p-2 outline-none'
-                    rows="5"
-                    placeholder='Введите адрес'
-                    name="address"
-                    required 
-                    value= {Values.address}
-                    onChange={change}
-                    />
-          </div>
+              id="address"
+              className='w-full bg-zinc-900 text-white p-3 rounded outline-none'
+              rows="4"
+              placeholder='Введите адрес'
+              name="address"
+              required
+              value={values.address}
+              onChange={handleChange}
+              aria-required="true"
+            />
+          </fieldset>
 
-          <div className='mt-4'>
-            <button className='w-full bg-blue-500 text-white font-semibold py-2 rounded'
-                    onClick={submit}> 
-              Регистрация 
-            </button>
-          </div>
-
-          <div >
-            <p className='mt-4 text-white text-center'>Или</p>
-          </div>
-
-          <div className='mt-4 text-zinc-400 text-center'>
-            <p>Уже зарегистрированы? <Link>Войти</Link> </p>
-            
-          </div>
-
-
-
-
+          <button
+            type="submit"
+            className='w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded transition'
+            aria-label="Зарегистрироваться"
+          >
+            Зарегистрироваться
+          </button>
         </div>
 
-      </div>
+        <div className='mt-6 text-center text-zinc-400'>
+          <p>
+            Уже зарегистрированы?{" "}
+            <Link to="/login" className='text-blue-400 hover:underline'>
+              Войти
+            </Link>
+          </p>
+        </div>
+      </form>
     </div>
-  )
-}
+  );
+};
 
-export default SignUp
+export default SignUp;
