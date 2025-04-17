@@ -7,16 +7,21 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "audit": "npm audit",
+    "audit:fix": "npm audit fix",
+    "outdated": "npm outdated",
+    "ci:security-check": "npm audit --audit-level=moderate"
   },
   "dependencies": {
-    "@reduxjs/toolkit": "^2.6.1",
-    "axios": "^1.8.4",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "@reduxjs/toolkit": "^2.1.0",
+    "axios": "^1.6.7",
+    "react": "^19.0.2",
+    "react-dom": "^19.0.2",
+    "react-helmet": "^6.1.0",
     "react-icons": "^5.5.0",
-    "react-redux": "^9.2.0",
-    "react-router-dom": "^7.4.1"
+    "react-redux": "^9.1.0",
+    "react-router-dom": "^7.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
@@ -31,5 +36,8 @@
     "postcss": "^8.5.3",
     "tailwindcss": "^3.4.17",
     "vite": "^6.2.0"
+  },
+  "overrides": {
+    "axios": "^1.6.7"
   }
 }
